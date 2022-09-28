@@ -85,12 +85,12 @@ function addUser(user){
     users['users_list'].push(user);
 }
 
-app.delete('/users', (req, res) => {
-    const userToRemove = req.body;
-    removeUser(userToRemove);
-    res.status(200).end();
-});
+// app.delete('/users', (req, res) => {
+//     const userToRemove = req.body;
+//     removeUser(userToRemove);
+//     res.status(200).end();
+// });
 
-function removeUser(user){
-    users['users_list'].pop(user);
-}
+// function removeUser(user){
+//     users['users_list'].pop(user);
+// }
