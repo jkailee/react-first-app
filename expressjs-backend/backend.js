@@ -1,4 +1,5 @@
 const express = require('express');
+const { restart } = require('nodemon');
 const app = express();
 const port = 5000;
 
@@ -38,7 +39,7 @@ const users = {
        {
           id: 'zap555', 
           name: 'Dennis',
-          job: 'Althlete',
+          job: 'Bartender',
        }
     ]
  }
@@ -85,12 +86,19 @@ function addUser(user){
     users['users_list'].push(user);
 }
 
-// app.delete('/users', (req, res) => {
-//     const userToRemove = req.body;
-//     removeUser(userToRemove);
-//     res.status(200).end();
-// });
+app.delete('/users/:id', (req, res) => {
+    const userToDel = req.params['id'];
+    let result = delUser(userToDel);
+    if (result === undefined)
+        res.status(404).send('Resource not found.');
+    else {
+        result = {users_list: result};
+        res.status(200).end();
+    }
+});
 
-// function removeUser(user){
-//     users['users_list'].pop(user);
-// }
+function delUser(id){
+    let userToDel =  users['users_list'].find( (user) => user['id'] === id);
+    let index = users.users_list.indexOf(userToDel);
+    return users.users_list.splice(index, 1);
+}
