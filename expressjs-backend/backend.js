@@ -46,15 +46,32 @@ const users = {
 
 app.get('/users', (req, res) => {
     const name = req.query.name;
-    if (name != undefined){
+    const job = req.query.job;
+    if (name != undefined && job == undefined){
         let result = findUserByName(name);
         result = {users_list: result};
+        res.send(result);
+    }
+    else if (name == undefined && job != undefined){
+        let result = findUserByJob(job);
+        result = {users_list: result};
+        res.send(result);
+    }
+    else if (name != undefined && job != undefined){
+        let nameFilter = findUserByName(name);
+        result = {users_list: nameFilter};
+        let jobFilter = findUserByJob(job);
+        result = {users_list: jobFilter};
         res.send(result);
     }
     else{
         res.send(users);
     }
 });
+
+const findUserByJob = (job) => { 
+    return users['users_list'].filter( (user) => user['job'] === job); 
+}
 
 const findUserByName = (name) => { 
     return users['users_list'].filter( (user) => user['name'] === name); 
@@ -102,3 +119,4 @@ function delUser(id){
     let index = users.users_list.indexOf(userToDel);
     return users.users_list.splice(index, 1);
 }
+
