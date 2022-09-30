@@ -100,7 +100,7 @@ app.post('/users', (req, res) => {
     req.body["id"] = uuidv4();
     const userToAdd = req.body;
     addUser(userToAdd);
-    res.status(201).end();
+    res.status(201).send(req.body).end();
 });
 
 function addUser(user){
