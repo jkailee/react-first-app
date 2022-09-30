@@ -3,6 +3,7 @@ const { restart } = require('nodemon');
 const app = express();
 const port = 5000;
 const cors = require('cors');
+const { v4: uuidv4 } = require('uuid');
 
 app.use(cors());
 app.use(express.json());
@@ -96,6 +97,7 @@ function findUserById(id) {
 }
 
 app.post('/users', (req, res) => {
+    req.body["id"] = uuidv4();
     const userToAdd = req.body;
     addUser(userToAdd);
     res.status(201).end();
